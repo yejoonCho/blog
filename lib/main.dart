@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        FutureProvider<List<Post>>(
+        StreamProvider<List<Post>>(
           create: (context) => posts(),
           initialData: [],
         ),
@@ -61,8 +61,22 @@ final user = User(
   profilePicture: 'https://i.ibb.co/ZKkSW4H/profile-image.png',
 );
 
-Future<List<Post>> posts() {
-  return FirebaseFirestore.instance.collection('posts').get().then((snapshot) {
-    return snapshot.docs.map((doc) => Post.fromDocument(doc)).toList();
+// Future<List<Post>> posts() {
+//   return FirebaseFirestore.instance.collection('posts').get().then((snapshot) {
+//     return snapshot.docs.map((doc) => Post.fromDocument(doc)).toList();
+//   });
+// }
+
+Stream<List<Post>> posts() {
+  return FirebaseFirestore.instance
+      .collection('posts')
+      .snapshots()
+      .map((snapshot) {
+    return snapshot.docs.map((doc) => Post.fromDocument(doc)).toList()
+      ..sort((first, last) {
+        final firstDate = first.publishedDate;
+        final lastDate = last.publishedDate;
+        return -firstDate!.compareTo(lastDate!);
+      });
   });
 }
