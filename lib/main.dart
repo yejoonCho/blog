@@ -49,11 +49,13 @@ ThemeData theme = ThemeData(
 
 final _blogPost = [
   BlogPost(
-    title: 'What is provider',
-    publishedDate: DateTime(2020, 2, 1),
-  ),
+      title: 'What is provider',
+      publishedDate: DateTime(2020, 2, 1),
+      body:
+          'A wrapper around InheritedWidget to make them easier to use and more ...'),
   BlogPost(
-    title: 'What is multi-provider',
-    publishedDate: DateTime(2020, 2, 15),
-  )
+      title: 'What is multi-provider',
+      publishedDate: DateTime(2020, 2, 15),
+      body:
+          'A provider that merges multiple providers into a single linear widet ...')
 ];

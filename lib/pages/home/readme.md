@@ -1,2 +1,2 @@
 ## 홈페이지 UI
-![Home_page](./home_page.png)
+![Home_page](../../../assets/home_page.png)
