@@ -1,8 +1,9 @@
 import 'package:blog/models/post.dart';
 import 'package:blog/models/user.dart';
 import 'package:blog/pages/blog/blog_page.dart';
+import 'package:blog/pages/create/create_page.dart';
 import 'package:blog/widgets/constrained_center.dart';
-import 'package:blog/pages/blog/components/blog_scaffold.dart';
+import 'package:blog/widgets/blog_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -39,6 +40,14 @@ class HomePage extends StatelessWidget {
         ),
         for (var post in posts) BlogListTile(post: post),
       ],
+      floatingActionButton: FloatingActionButton.extended(
+        label: Text('New Post'),
+        icon: Icon(Icons.add),
+        onPressed: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => CreatePage()));
+        },
+      ),
     );
   }
 }

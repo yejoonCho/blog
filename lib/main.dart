@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
           create: (context) => posts(),
           initialData: [],
         ),
-        // Provider<List<Post>>(create: (context) => _blogPost),
         Provider<User>(create: (context) => user),
       ],
       child: MaterialApp(
@@ -57,26 +56,13 @@ ThemeData theme = ThemeData(
   ),
 );
 
-// final _blogPost = [
-//   Post(
-//       title: 'What is provider',
-//       publishedDate: DateTime(2020, 2, 1),
-//       body:
-//           'A wrapper around InheritedWidget to make them easier to use and more ...'),
-//   Post(
-//       title: 'What is multi-provider',
-//       publishedDate: DateTime(2020, 2, 15),
-//       body:
-//           'A provider that merges multiple providers into a single linear widet ...')
-// ];
-
 final user = User(
   name: 'Flutter Dev',
   profilePicture: 'https://i.ibb.co/ZKkSW4H/profile-image.png',
 );
 
 Future<List<Post>> posts() {
-  return FirebaseFirestore.instance.collection('posts').get().then((query) {
-    return query.docs.map((doc) => Post.fromDocument(doc)).toList();
+  return FirebaseFirestore.instance.collection('posts').get().then((snapshot) {
+    return snapshot.docs.map((doc) => Post.fromDocument(doc)).toList();
   });
 }

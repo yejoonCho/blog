@@ -1,6 +1,6 @@
 import 'package:blog/models/post.dart';
 import 'package:blog/models/user.dart';
-import 'package:blog/pages/blog/components/blog_scaffold.dart';
+import 'package:blog/widgets/blog_scaffold.dart';
 import 'package:blog/widgets/constrained_center.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
