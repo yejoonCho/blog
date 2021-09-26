@@ -1,9 +1,13 @@
+import 'package:blog/blog_post.dart';
 import 'package:blog/constrained_center.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final posts = Provider.of<List<BlogPost>>(context);
     return Scaffold(
       appBar: AppBar(),
       body: Align(
@@ -38,7 +42,7 @@ class HomePage extends StatelessWidget {
                 'Blog',
                 style: Theme.of(context).textTheme.headline2,
               ),
-              BlogListTile(),
+              for (var post in posts) BlogListTile(post: post),
             ],
           ),
         ),
@@ -48,6 +52,9 @@ class HomePage extends StatelessWidget {
 }
 
 class BlogListTile extends StatelessWidget {
+  final BlogPost post;
+  BlogListTile({required this.post});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -56,14 +63,14 @@ class BlogListTile extends StatelessWidget {
         SizedBox(height: 20),
         InkWell(
           child: Text(
-            'What is provider?',
+            post.title!,
             style: TextStyle(color: Colors.blueAccent.shade700),
           ),
           onTap: () {},
         ),
         SizedBox(height: 10),
         SelectableText(
-          'January 2, 2020',
+          DateFormat('d MMMM y').format(post.publishedDate!),
           style: Theme.of(context).textTheme.caption,
         )
       ],

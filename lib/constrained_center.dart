@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ConstrainedCenter extends StatelessWidget {
-  final Widget? child;
+  final Widget child;
+  ConstrainedCenter({required this.child});
 
-  const ConstrainedCenter({Key? key, this.child}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return SizedBox(

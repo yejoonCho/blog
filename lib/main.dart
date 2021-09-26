@@ -1,5 +1,7 @@
+import 'package:blog/blog_post.dart';
 import 'package:flutter/material.dart';
-import 'home_page.dart';
+import 'package:provider/provider.dart';
+import 'pages/home/home_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -8,10 +10,15 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: theme,
-      home: HomePage(),
+    return MultiProvider(
+      providers: [
+        Provider<List<BlogPost>>(create: (context) => _blogPost),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: theme,
+        home: HomePage(),
+      ),
     );
   }
 }
@@ -39,3 +46,14 @@ ThemeData theme = ThemeData(
     iconTheme: IconThemeData(color: Colors.black),
   ),
 );
+
+final _blogPost = [
+  BlogPost(
+    title: 'What is provider',
+    publishedDate: DateTime(2020, 2, 1),
+  ),
+  BlogPost(
+    title: 'What is multi-provider',
+    publishedDate: DateTime(2020, 2, 15),
+  )
+];
