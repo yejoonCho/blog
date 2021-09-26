@@ -1,9 +1,14 @@
-import 'package:blog/blog_post.dart';
+import 'package:blog/models/post.dart';
+import 'package:blog/models/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'pages/home/home_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -12,7 +17,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<List<BlogPost>>(create: (context) => _blogPost),
+        FutureProvider<List<Post>>(
+          create: (context) => posts(),
+          initialData: [],
+        ),
+        // Provider<List<Post>>(create: (context) => _blogPost),
+        Provider<User>(create: (context) => user),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -47,15 +57,26 @@ ThemeData theme = ThemeData(
   ),
 );
 
-final _blogPost = [
-  BlogPost(
-      title: 'What is provider',
-      publishedDate: DateTime(2020, 2, 1),
-      body:
-          'A wrapper around InheritedWidget to make them easier to use and more ...'),
-  BlogPost(
-      title: 'What is multi-provider',
-      publishedDate: DateTime(2020, 2, 15),
-      body:
-          'A provider that merges multiple providers into a single linear widet ...')
-];
+// final _blogPost = [
+//   Post(
+//       title: 'What is provider',
+//       publishedDate: DateTime(2020, 2, 1),
+//       body:
+//           'A wrapper around InheritedWidget to make them easier to use and more ...'),
+//   Post(
+//       title: 'What is multi-provider',
+//       publishedDate: DateTime(2020, 2, 15),
+//       body:
+//           'A provider that merges multiple providers into a single linear widet ...')
+// ];
+
+final user = User(
+  name: 'Flutter Dev',
+  profilePicture: 'https://i.ibb.co/ZKkSW4H/profile-image.png',
+);
+
+Future<List<Post>> posts() {
+  return FirebaseFirestore.instance.collection('posts').get().then((query) {
+    return query.docs.map((doc) => Post.fromDocument(doc)).toList();
+  });
+}

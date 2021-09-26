@@ -94,5 +94,29 @@
       loadMainDartJs();
     }
   </script>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-analytics.js";
+    
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyBtx7z87oyiEuav_DMsfkooqdjLCrZ6_O0",
+      authDomain: "blog-flutter-13056.firebaseapp.com",
+      projectId: "blog-flutter-13056",
+      storageBucket: "blog-flutter-13056.appspot.com",
+      messagingSenderId: "747190947766",
+      appId: "1:747190947766:web:4771dfc44a7893bfabbb17",
+      measurementId: "G-2LG8549NSX"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
 </body>
 </html>

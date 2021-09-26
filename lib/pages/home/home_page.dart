@@ -1,27 +1,29 @@
-import 'package:blog/blog_post.dart';
+import 'package:blog/models/post.dart';
+import 'package:blog/models/user.dart';
 import 'package:blog/pages/blog/blog_page.dart';
-import 'package:blog/pages/home/components/constrained_center.dart';
-import 'package:blog/pages/home/components/blog_scaffold.dart';
+import 'package:blog/widgets/constrained_center.dart';
+import 'package:blog/pages/blog/components/blog_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final posts = Provider.of<List<BlogPost>>(context);
+    final posts = Provider.of<List<Post>>(context);
+    final user = Provider.of<User>(context);
+
     return BlogScaffold(
       children: [
         ConstrainedCenter(
           child: CircleAvatar(
-            backgroundImage:
-                NetworkImage('https://i.ibb.co/ZKkSW4H/profile-image.png'),
+            backgroundImage: NetworkImage(user.profilePicture!),
             radius: 72,
           ),
         ),
         SizedBox(height: 18),
         ConstrainedCenter(
           child: SelectableText(
-            'Flutter Dev',
+            user.name!,
             style: Theme.of(context).textTheme.headline1,
           ),
         ),
@@ -42,7 +44,7 @@ class HomePage extends StatelessWidget {
 }
 
 class BlogListTile extends StatelessWidget {
-  final BlogPost post;
+  final Post post;
   BlogListTile({required this.post});
 
   @override
