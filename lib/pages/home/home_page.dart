@@ -4,6 +4,7 @@ import 'package:blog/pages/blog/blog_page.dart';
 import 'package:blog/pages/create/create_page.dart';
 import 'package:blog/widgets/constrained_center.dart';
 import 'package:blog/widgets/blog_scaffold.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -101,6 +102,44 @@ class BlogListTile extends StatelessWidget {
                         builder: (context) => CreatePage(post: post)));
                     break;
                   case Action.delete:
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return SimpleDialog(
+                          contentPadding: EdgeInsets.all(18),
+                          children: [
+                            Text('Are you sure you want to delete'),
+                            Text(post.title!,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.italic,
+                                )),
+                            SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                ElevatedButton(
+                                  child: Text('Delete'),
+                                  style: ElevatedButton.styleFrom(
+                                      primary: Colors.redAccent),
+                                  onPressed: () {
+                                    FirebaseFirestore.instance
+                                        .collection('posts')
+                                        .doc(post.id)
+                                        .delete();
+                                  },
+                                ),
+                                SizedBox(width: 20),
+                                TextButton(
+                                  child: Text('Cancel'),
+                                  onPressed: () => Navigator.of(context).pop(),
+                                )
+                              ],
+                            )
+                          ],
+                        );
+                      },
+                    );
                     break;
                   default:
                 }
