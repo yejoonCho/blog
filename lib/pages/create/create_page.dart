@@ -4,10 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CreatePage extends StatelessWidget {
+  final Post? post;
+  CreatePage({this.post});
+
   @override
   Widget build(BuildContext context) {
-    final titleController = TextEditingController(text: '');
-    final bodyController = TextEditingController(text: '');
+    final titleController = TextEditingController(text: post?.title ?? '');
+    final bodyController = TextEditingController(text: post?.body ?? '');
+    final isEdit = post != null;
 
     return BlogScaffold(
       children: [
@@ -27,22 +31,36 @@ class CreatePage extends StatelessWidget {
         ),
       ],
       floatingActionButton: FloatingActionButton.extended(
-        label: Text('Submit'),
-        icon: Icon(Icons.book),
+        label: Text(isEdit ? 'Update' : 'Submit'),
+        icon: Icon(isEdit ? Icons.check : Icons.book),
         onPressed: () {
           final title = titleController.text;
           final body = bodyController.text;
-          final post = Post(
+          final newPost = Post(
             title: title,
             body: body,
             publishedDate: DateTime.now(),
-          ).toMap();
-          FirebaseFirestore.instance
-              .collection('posts')
-              .add(post)
-              .then((_) => Navigator.of(context).pop());
+          );
+          handleBlogUpdate(
+            isEdit: isEdit,
+            newPost: newPost,
+            oldPost: post,
+          ).then((value) => Navigator.of(context).pop());
         },
       ),
     );
+  }
+}
+
+Future<void> handleBlogUpdate(
+    {required bool isEdit, required Post newPost, Post? oldPost}) async {
+  final newMapPost = newPost.toMap();
+  if (isEdit) {
+    await FirebaseFirestore.instance
+        .collection('posts')
+        .doc(oldPost!.id)
+        .update(newMapPost);
+  } else {
+    await FirebaseFirestore.instance.collection('posts').add(newMapPost);
   }
 }
