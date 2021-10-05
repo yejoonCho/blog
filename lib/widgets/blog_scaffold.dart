@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 class BlogScaffold extends StatelessWidget {
   final List<Widget> children;
   final Widget? floatingActionButton;
+  final PreferredSizeWidget? appBar;
 
-  BlogScaffold({required this.children, this.floatingActionButton});
+  BlogScaffold(
+      {required this.children, this.floatingActionButton, this.appBar});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: appBar ?? AppBar(),
       body: Align(
         alignment: Alignment.topCenter,
         child: Container(
