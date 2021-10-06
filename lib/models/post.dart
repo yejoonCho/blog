@@ -6,10 +6,11 @@ class Post {
   final DateTime? publishedDate;
   final String? body;
   final String? id;
+  final bool? isLiked;
 
   String get date => DateFormat('d MMMM y').format(publishedDate!);
 
-  Post({this.title, this.publishedDate, this.body, this.id});
+  Post({this.title, this.publishedDate, this.body, this.id, this.isLiked});
 
   factory Post.fromDocument(DocumentSnapshot doc) {
     final map = doc.data() as Map<String, dynamic>;
@@ -18,6 +19,7 @@ class Post {
       body: map['body'],
       publishedDate: map['published_date'].toDate(),
       id: doc.id,
+      isLiked: map['is_liked'] ?? false,
     );
   }
 
